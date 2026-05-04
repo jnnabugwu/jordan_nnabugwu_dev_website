@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jordan Nnabugwu — Flutter Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-base:      #09090F;
+    --bg-surface:   #111118;
+    --bg-raised:    #1A1A25;
+    --bg-hover:     #22222E;
+    --accent:       #00D4A8;
+    --accent-dim:   rgba(0,212,168,0.10);
+    --accent-mid:   rgba(0,212,168,0.30);
+    --orange:       #FF6B35;
+    --orange-dim:   rgba(255,107,53,0.10);
+    --text-primary: #F0EEF7;
+    --text-muted:   #8B8AA0;
+    --text-faint:   #3D3C52;
+    --border:       rgba(240,238,247,0.07);
+    --border-mid:   rgba(240,238,247,0.14);
+    --font-display: 'Syne', sans-serif;
+    --font-body:    'Figtree', sans-serif;
+    --font-mono:    'IBM Plex Mono', monospace;
+    --radius-sm:  6px;
+    --radius-md:  12px;
+    --radius-lg:  20px;
+    --radius-xl:  32px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-base);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 16px 24px;
+    transform: translateY(-100%);
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), background 0.3s ease;
+  }
+  .nav.visible { transform: translateY(0); }
+  .nav-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    background: rgba(9,9,15,0.82);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 13px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 17px;
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-link {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .nav-link:hover, .nav-link.active { color: var(--text-primary); }
+  .nav-cta {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--bg-base);
+    background: var(--accent);
+    padding: 7px 16px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+  }
+  .nav-cta:hover { opacity: 0.88; }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    width: 100%;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+  }
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 52%;
+    z-index: 0;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to top, rgba(9,9,15,0.97) 0%, rgba(9,9,15,0.65) 40%, rgba(9,9,15,0.25) 75%, transparent 100%),
+      linear-gradient(to right, rgba(9,9,15,0.6) 0%, transparent 60%);
+    z-index: 1;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 40px 64px;
+    max-width: 960px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.5s ease-out 0ms forwards;
+  }
+  .hero-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(44px, 6vw, 72px);
+    font-weight: 800;
+    line-height: 1.0;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    text-wrap: pretty;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.5s ease-out 80ms forwards;
+  }
+  .hero-h1 em { font-style: normal; color: var(--accent); }
+  .hero-lead {
+    font-family: var(--font-body);
+    font-size: 17px;
+    font-weight: 300;
+    color: rgba(240,238,247,0.72);
+    max-width: 460px;
+    line-height: 1.65;
+    margin-bottom: 28px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.5s ease-out 160ms forwards;
+  }
+  .hero-cta-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.5s ease-out 240ms forwards;
+  }
+
+  /* ─── PROOF BAR ─── */
+  .proof-bar {
+    background: var(--bg-base);
+    border-top: 1px solid var(--border);
+    padding: 28px 40px;
+  }
+  .proof-bar-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+  }
+  .proof-stat {
+    flex: 1;
+    padding: 0 28px;
+    border-right: 1px solid var(--border);
+  }
+  .proof-stat:first-child { padding-left: 0; }
+  .proof-stat:last-child { border-right: none; }
+  .proof-value {
+    font-family: var(--font-display);
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1;
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+  }
+  .proof-value sup {
+    font-size: 18px;
+    color: var(--accent);
+    font-weight: 800;
+    vertical-align: super;
+  }
+  .proof-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 6px;
+  }
+
+  /* ─── SECTION SHELL ─── */
+  .section {
+    padding: 80px 40px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  .section-sub {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    max-width: 480px;
+    font-weight: 300;
+  }
+
+  /* ─── CREDIBILITY STRIP ─── */
+  .cred-strip {
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 40px;
+  }
+  .cred-strip-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .cred-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-faint);
+    white-space: nowrap;
+    padding-right: 28px;
+    border-right: 1px solid var(--border);
+    margin-right: 28px;
+    flex-shrink: 0;
+  }
+  .cred-names {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .cred-name {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+  .cred-name:hover { color: var(--text-primary); }
+
+  /* ─── BUTTONS ─── */
+  .btn {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: var(--radius-sm);
+    padding: 12px 24px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-cta { background: var(--orange); color: #fff; }
+  .btn-cta:hover { opacity: 0.9; }
+  .btn-secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border-mid); }
+  .btn-secondary:hover { border-color: rgba(240,238,247,0.28); background: var(--bg-raised); }
+  .btn-ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent-mid); }
+  .btn-ghost:hover { background: var(--accent-dim); }
+
+  /* ─── TAGS ─── */
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 4px 11px;
+    border-radius: 40px;
+    display: inline-flex;
+    align-items: center;
+    letter-spacing: 0.04em;
+  }
+  .tag-tech { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent-mid); }
+  .tag-orange { background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(255,107,53,0.28); }
+  .tag-neutral { background: var(--bg-raised); color: var(--text-muted); border: 1px solid var(--border); }
+
+  /* ─── PROJECT CARDS ─── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .project-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 26px;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .project-card:hover { border-color: var(--border-mid); transform: translateY(-2px); }
+  .project-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .project-icon {
+    width: 40px; height: 40px;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-mid);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+  }
+  .project-meta { font-family: var(--font-mono); font-size: 9px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .project-name { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--text-primary); }
+  .project-desc { font-size: 13px; color: var(--text-muted); line-height: 1.65; margin-bottom: 16px; flex: 1; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+
+  /* ─── OPEN SOURCE & SPEAKING ─── */
+  .oss-grid { display: flex; flex-direction: column; gap: 14px; }
+
+  .oss-card-fluttercon {
+    background: var(--bg-surface);
+    border: 1px solid rgba(255,107,53,0.2);
+    border-radius: var(--radius-lg);
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: 1fr 100px;
+    gap: 24px;
+    align-items: center;
+    transition: border-color 0.2s;
+  }
+  .oss-card-fluttercon:hover { border-color: rgba(255,107,53,0.38); }
+
+  .oss-card-off {
+    background: var(--bg-surface);
+    border: 1px solid rgba(0,212,168,0.18);
+    border-radius: var(--radius-lg);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    transition: border-color 0.2s;
+  }
+  .oss-card-off:hover { border-color: rgba(0,212,168,0.32); }
+
+  .oss-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 8px;
+  }
+  .oss-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  .oss-desc { font-size: 13px; color: var(--text-muted); line-height: 1.65; margin-bottom: 16px; }
+
+  .speaker-photo {
+    width: 88px; height: 88px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255,107,53,0.4);
+    flex-shrink: 0;
+  }
+
+  /* ─── STACK ─── */
+  .stack-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px 32px;
+  }
+  .stack-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .stack-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .stack-group-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-faint);
+    min-width: 56px;
+  }
+  .stack-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+
+  /* ─── CONTACT ─── */
+  .contact-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 52px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-card::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: 50%; transform: translateX(-50%);
+    width: 500px; height: 240px;
+    background: radial-gradient(ellipse, rgba(0,212,168,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .contact-heading {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .contact-sub { font-size: 15px; color: var(--text-muted); font-weight: 300; margin-bottom: 28px; }
+  .contact-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 20px 40px;
+    text-align: center;
+  }
+  footer p {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.06em;
+  }
+  footer span { color: var(--accent); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+  .fade-up.in { opacity: 1; transform: translateY(0); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    .projects-grid { grid-template-columns: 1fr; }
+    .hero-content { padding: 0 24px 48px; }
+    .section { padding: 60px 24px; }
+    .proof-bar { padding: 20px 24px; }
+    .proof-bar-inner { gap: 20px; flex-wrap: wrap; }
+    .proof-stat { border-right: none; padding: 0; }
+    .cred-strip { padding: 16px 24px; }
+    .oss-card-fluttercon { grid-template-columns: 1fr; }
+    .contact-card { padding: 36px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════ NAV ═══════ -->
+<nav class="nav" id="nav" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">JN<span>.</span></a>
+    <div class="nav-links">
+      <a href="#work" class="nav-link">Work</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#open-source" class="nav-link">Open Source</a>
+      <a href="#contact" class="nav-link nav-cta">Get in Touch</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="hero" id="top">
+  <img
+    class="hero-photo"
+    src="uploads/WhatsApp Image 2026-03-20 at 09.54.43.jpeg"
+    alt="Jordan Nnabugwu"
+  />
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Flutter · Dart · Mobile Engineering</div>
+    <h1 class="hero-h1">Apps that <em>work</em><br>at scale.</h1>
+    <p class="hero-lead">Flutter engineer with 5+ years shipping consumer and enterprise apps. From architecture to App Store — I own it end-to-end.</p>
+    <div class="hero-cta-row">
+      <a href="#contact" class="btn btn-cta">Get in Touch</a>
+      <a href="#work" class="btn btn-secondary">View My Work</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ PROOF BAR ═══════ -->
+<div class="proof-bar">
+  <div class="proof-bar-inner">
+    <div class="proof-stat">
+      <div class="proof-value">1M<sup>+</sup></div>
+      <div class="proof-label">Downloads — Open Food Facts</div>
+    </div>
+    <div class="proof-stat">
+      <div class="proof-value">500K</div>
+      <div class="proof-label">Users — Whisker App</div>
+    </div>
+    <div class="proof-stat">
+      <div class="proof-value">5<sup>+</sup></div>
+      <div class="proof-label">Years shipping Flutter</div>
+    </div>
+    <div class="proof-stat">
+      <div class="proof-value" style="font-size:22px; padding-top: 4px;">FlutterCon</div>
+      <div class="proof-label">Speaker — Berlin 2024</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ CREDIBILITY STRIP ═══════ -->
+<div class="cred-strip">
+  <div class="cred-strip-inner">
+    <span class="cred-label">Built for</span>
+    <div class="cred-names">
+      <span class="cred-name">Whisker</span>
+      <span class="cred-name">Open Food Facts</span>
+      <span class="cred-name">Trackhouse Racing</span>
+      <span class="cred-name">Queue Travel</span>
+      <span class="cred-name">Very Good Ventures</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ SELECTED WORK ═══════ -->
+<div id="work">
+  <div class="section fade-up">
+    <div class="section-label">03 — Selected Work</div>
+    <h2 class="section-heading">What I've shipped.</h2>
+    <p class="section-sub">Real products, real users. Each one owned end-to-end.</p>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-card-top">
+          <div>
+            <div class="project-meta">Client · 500K users</div>
+            <div class="project-name">Whisker</div>
+          </div>
+          <div class="project-icon">🐾</div>
+        </div>
+        <p class="project-desc">Architecture lead on a pet-care app serving 500K users. Established BLoC patterns across the team, implemented CI/CD in CodeMagic, and drove test coverage from near-zero.</p>
+        <div class="project-tags">
+          <span class="tag tag-tech">Flutter</span>
+          <span class="tag tag-tech">BLoC</span>
+          <span class="tag tag-tech">Firebase</span>
+          <span class="tag tag-tech">CodeMagic</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-top">
+          <div>
+            <div class="project-meta">Client · Race Engineering</div>
+            <div class="project-name">Trackhouse Racing</div>
+          </div>
+          <div class="project-icon">🏁</div>
+        </div>
+        <p class="project-desc">Video analysis tool for race engineers. Built seek/playback UX, identified backend data contract gaps, and led observability implementation using Talker and Sentry.</p>
+        <div class="project-tags">
+          <span class="tag tag-tech">Flutter</span>
+          <span class="tag tag-tech">Sentry</span>
+          <span class="tag tag-neutral">Very Good Ventures</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-top">
+          <div>
+            <div class="project-meta">Open Source · 1M+ downloads</div>
+            <div class="project-name">Open Food Facts</div>
+          </div>
+          <div class="project-icon">🥫</div>
+        </div>
+        <p class="project-desc">Major contributor to a 1M+ download global food database app. Led Dart migration, built new UI modules, and maintained code quality across a distributed open-source team.</p>
+        <div class="project-tags">
+          <span class="tag tag-tech">Flutter</span>
+          <span class="tag tag-tech">Dart</span>
+          <span class="tag tag-neutral">Open Source</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-top">
+          <div>
+            <div class="project-meta">Client · Travel</div>
+            <div class="project-name">Queue Travel</div>
+          </div>
+          <div class="project-icon">✈️</div>
+        </div>
+        <p class="project-desc">End-to-end booking flow for a travel startup. Integrated Supabase backend, built GraphQL data layer, and delivered a polished cross-platform experience on iOS and Android.</p>
+        <div class="project-tags">
+          <span class="tag tag-tech">Flutter</span>
+          <span class="tag tag-tech">Supabase</span>
+          <span class="tag tag-tech">GraphQL</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ OPEN SOURCE & SPEAKING ═══════ -->
+<div id="open-source">
+  <div class="section fade-up">
+    <div class="section-label">04 — Open Source &amp; Speaking</div>
+    <h2 class="section-heading">Beyond the day job.</h2>
+    <p class="section-sub">Contributing to the ecosystem and sharing what I've learned.</p>
+    <div class="oss-grid">
+
+      <!-- FlutterCon card -->
+      <div class="oss-card-fluttercon">
+        <div>
+          <div class="oss-eyebrow" style="color: var(--orange);">FlutterCon Berlin 2024 · Conference Talk</div>
+          <div class="oss-title">Server-Driven UI in Flutter</div>
+          <p class="oss-desc">How to build flexible, config-driven UIs that ship new screens and flows without an app update — reducing release risk and unlocking product velocity.</p>
+          <a href="#" class="btn btn-ghost" style="font-size:13px; padding: 8px 18px;">Watch the Talk</a>
+        </div>
+        <img
+          class="speaker-photo"
+          src="uploads/pasted-1777589625029-0.png"
+          alt="Jordan at FlutterCon"
+        />
+      </div>
+
+      <!-- Open Food Facts card -->
+      <div class="oss-card-off">
+        <div style="flex:1;">
+          <div class="oss-eyebrow" style="color: var(--accent);">Open Source · Active Contributor</div>
+          <div class="oss-title" style="font-size: 19px; margin-bottom: 6px;">Open Food Facts</div>
+          <p class="oss-desc" style="margin-bottom: 0;">1M+ download global food database. Contributed Dart migration, UI modules, and code review across a distributed team.</p>
+        </div>
+        <a href="#" class="btn btn-ghost" style="font-size:13px; padding: 8px 18px; flex-shrink:0;">View on GitHub</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ STACK ═══════ -->
+<div id="about">
+  <div class="section fade-up">
+    <div class="section-label">05 — Stack &amp; Skills</div>
+    <h2 class="section-heading">Tools I trust.</h2>
+    <div class="stack-grid">
+      <div class="stack-row">
+        <span class="stack-group-label">UI</span>
+        <div class="stack-chips">
+          <span class="tag tag-tech">Flutter</span>
+          <span class="tag tag-tech">Dart</span>
+          <span class="tag tag-tech">Jaspr</span>
+        </div>
+      </div>
+      <div class="stack-row">
+        <span class="stack-group-label">State</span>
+        <div class="stack-chips">
+          <span class="tag tag-tech">BLoC</span>
+          <span class="tag tag-tech">Cubit</span>
+          <span class="tag tag-tech">Riverpod</span>
+        </div>
+      </div>
+      <div class="stack-row">
+        <span class="stack-group-label">Backend</span>
+        <div class="stack-chips">
+          <span class="tag tag-tech">Firebase</span>
+          <span class="tag tag-tech">Supabase</span>
+          <span class="tag tag-tech">AWS</span>
+          <span class="tag tag-tech">GraphQL</span>
+          <span class="tag tag-tech">FastAPI</span>
+        </div>
+      </div>
+      <div class="stack-row">
+        <span class="stack-group-label">Tooling</span>
+        <div class="stack-chips">
+          <span class="tag tag-neutral">CodeMagic</span>
+          <span class="tag tag-neutral">Git</span>
+          <span class="tag tag-neutral">Sentry</span>
+          <span class="tag tag-neutral">Talker</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ CONTACT ═══════ -->
+<div id="contact">
+  <div class="section fade-up">
+    <div class="section-label">06 — Contact</div>
+    <div class="contact-card">
+      <h2 class="contact-heading">Let's build something.</h2>
+      <p class="contact-sub">Available for contract and full-time roles.</p>
+      <div class="contact-links">
+        <a href="mailto:jordan@example.com" class="btn btn-cta">Get in Touch</a>
+        <a href="#" class="btn btn-secondary">GitHub</a>
+        <a href="#" class="btn btn-secondary">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer>
+  <p>Built with Jaspr · <span>©</span> 2025 Jordan Nnabugwu</p>
+</footer>
+
+<script>
+  // ─── NAV: hidden until 80px scroll ───
+  const nav = document.getElementById('nav');
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y > 80) {
+      nav.classList.add('visible');
+    } else {
+      nav.classList.remove('visible');
+    }
+    lastScroll = y;
+  }, { passive: true });
+
+  // ─── SCROLL REVEAL: fade-up on enter ───
+  const revealEls = document.querySelectorAll('.fade-up');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(el => observer.observe(el));
+
+  // ─── NAV: active link highlight ───
+  const sections = document.querySelectorAll('[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(l => {
+      l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+    });
+  }, { passive: true });
+</script>
+
+</body>
+</html>
