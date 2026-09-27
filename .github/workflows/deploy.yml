@@ -22,12 +22,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: dart-lang/setup-dart@v1
+      # Jaspr needs the Flutter web SDK (pubspec has `jaspr: flutter: plugins`),
+      # so install Flutter rather than plain Dart.
+      - uses: subosito/flutter-action@v2
         with:
-          sdk: stable
+          channel: stable
+          cache: true
 
       - name: Install dependencies
-        run: dart pub get
+        run: flutter pub get
 
       - name: Analyze
         run: dart analyze lib
