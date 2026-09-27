@@ -399,7 +399,7 @@ class Home extends StatelessComponent {
       div(classes: 'contact-card', [
         h2(classes: 'contact-heading', [.text("Let's build something.")]),
         p(classes: 'contact-sub', [
-          .text('Available for contract and full-time roles.'),
+          .text('Open to conversations.'),
         ]),
         a(
           href: 'mailto:jordannnabugwu@gmail.com',
