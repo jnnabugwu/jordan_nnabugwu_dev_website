@@ -53,7 +53,7 @@ class Home extends StatelessComponent {
       div(classes: 'hero-overlay', []),
       div(classes: 'hero-content', [
         div(classes: 'hero-eyebrow', [
-          .text('Flutter · Dart · Mobile Engineering'),
+          .text('Flutter · Next.js · Full-Stack Engineering'),
         ]),
         h1(classes: 'hero-h1', [
           .text('Apps that '),
@@ -63,7 +63,8 @@ class Home extends StatelessComponent {
         ]),
         p(classes: 'hero-lead', [
           .text(
-            'Flutter engineer with 5+ years shipping consumer and enterprise apps. '
+            'Full-stack engineer with 5+ years shipping consumer and enterprise apps — '
+            'Flutter on mobile, Next.js on the web, Node and Python behind them. '
             'From architecture to App Store — I own it end-to-end.',
           ),
         ]),
@@ -93,7 +94,7 @@ class Home extends StatelessComponent {
           .text('5'),
           span(classes: 'proof-sup', [.text('+')]),
         ]),
-        div(classes: 'proof-label', [.text('Years shipping Flutter')]),
+        div(classes: 'proof-label', [.text('Years shipping production apps')]),
       ]),
       div(classes: 'proof-stat', [
         div(classes: 'proof-value proof-value--sm', [.text('FlutterCon')]),
@@ -106,11 +107,12 @@ class Home extends StatelessComponent {
     div(classes: 'cred-strip-inner', [
       span(classes: 'cred-label', [.text('Built for')]),
       div(classes: 'cred-names', [
+        span(classes: 'cred-name', [.text('Vamp')]),
+        span(classes: 'cred-name', [.text('SkillTap')]),
+        span(classes: 'cred-name', [.text('Very Good Ventures')]),
+        span(classes: 'cred-name', [.text('Trackhouse Racing')]),
         span(classes: 'cred-name', [.text('Whisker')]),
         span(classes: 'cred-name', [.text('Open Food Facts')]),
-        span(classes: 'cred-name', [.text('Trackhouse Racing')]),
-        span(classes: 'cred-name', [.text('Queue Travel')]),
-        span(classes: 'cred-name', [.text('Very Good Ventures')]),
       ]),
     ]),
   ]);
@@ -123,6 +125,38 @@ class Home extends StatelessComponent {
         .text('Real products, real users. Each one owned end-to-end.'),
       ]),
       div(classes: 'projects-grid', [
+        _projectCard(
+          meta: 'FTE · Electric Rideshare',
+          name: 'Vamp',
+          icon: '⚡',
+          description:
+              'Premium electric rideshare across Dallas–Fort Worth. Ship end-to-end '
+              'across the Flutter rider app, Next.js admin dashboard, and Node '
+              'backend — live rider tracking, airport pickups, async report '
+              'generation, and shift tracking for fleet operations.',
+          techTags: ['Flutter', 'Next.js', 'TypeScript', 'Node.js'],
+        ),
+        _projectCard(
+          meta: 'Contract · Hiring Platform',
+          name: 'SkillTap',
+          icon: '🧰',
+          description:
+              'Took over a two-sided hiring platform from an outsourced team with no '
+              'handover or tests. Led a security hardening pass, migrated off AWS to '
+              'Supabase, shipped Stripe checkout for employer job posts, and took the '
+              'Flutter app from 0 to 400+ automated tests.',
+          techTags: ['Flutter', 'Node.js', 'PostgreSQL', 'Stripe', 'Vue'],
+        ),
+        _projectCard(
+          meta: 'Fulcro Labs · Live on App Store',
+          name: 'What Are You Reading',
+          icon: '📚',
+          description:
+              'Social reading app for book lovers. Owned CodeMagic CI/CD for iOS '
+              'and Android, and built reporting, user blocking, and an EULA gate '
+              'end-to-end to clear App Store and Google Play UGC review.',
+          techTags: ['Flutter', 'Supabase', 'Next.js', 'CodeMagic'],
+        ),
         _projectCard(
           meta: 'VGV · Native-to-Flutter',
           name: 'Scooters Coffee',
@@ -205,7 +239,7 @@ class Home extends StatelessComponent {
 
   Component _openSource() => div(id: 'open-source', [
     div(classes: 'section fade-up', [
-      div(classes: 'section-label', [.text('04 — Open Source & Speaking')]),
+      div(classes: 'section-label', [.text('04 — Open Source, Projects & Speaking')]),
       h2(classes: 'section-heading', [.text('Beyond the day job.')]),
       p(classes: 'section-sub', [
         .text("Contributing to the ecosystem and sharing what I've learned."),
@@ -237,46 +271,110 @@ class Home extends StatelessComponent {
             classes: 'speaker-photo',
           ),
         ]),
-        // Open Food Facts card
-        div(classes: 'oss-card-off', [
-          div(classes: 'flex-1', [
-            div(classes: 'oss-eyebrow oss-eyebrow--teal', [
-              .text('Open Source · Active Contributor'),
-            ]),
-            div(classes: 'oss-title oss-title--sm', [.text('Open Food Facts')]),
-            p(classes: 'oss-desc oss-desc--no-mb', [
-              .text(
-                '1M+ download global food database. Deep linking for sign-up '
-                'and password recovery, spell-checker on the product edit screen, '
-                'and code review across a distributed team.',
-              ),
-            ]),
-          ]),
-          a(
-            href: 'https://github.com/openfoodfacts/smooth-app',
-            classes: 'btn btn-ghost btn-sm flex-shrink-0',
-            [.text('View on GitHub')],
-          ),
-        ]),
+        _ossCard(
+          eyebrow: 'Open Source · 2 Merged PRs',
+          title: 'omi',
+          description:
+              'Open-source AI wearable app. Shipped a native macOS fix '
+              '(Swift/SwiftUI) for notification previews with an XCTest suite, and '
+              'replaced the Flutter app\'s single-date filter with a tested '
+              'date-range filter across conversations, home, and search.',
+          href: 'https://github.com/BasedHardware/omi/pulls?q=is%3Apr+author%3Ajnnabugwu',
+          linkText: 'View PRs',
+        ),
+        _ossCard(
+          eyebrow: 'Open Source · Contributor',
+          title: 'Open Food Facts',
+          description:
+              '1M+ download global food database. Deep linking for sign-up '
+              'and password recovery, spell-checker on the product edit screen, '
+              'and code review across a distributed team.',
+          href: 'https://github.com/openfoodfacts/smooth-app',
+          linkText: 'View on GitHub',
+        ),
+        _ossCard(
+          eyebrow: 'Side Project · Flutter Embedded',
+          title: 'BT Speaker Studio',
+          description:
+              'A Bluetooth speaker running Flutter on a Raspberry Pi Zero 2W. '
+              'Real-time FFT visualizer and a beat-synced LED ring driven by typed '
+              'WebSocket events, plus a companion mobile app, in a Melos monorepo '
+              'with GitHub Actions CI.',
+          href: 'https://github.com/jnnabugwu/bt_speaker',
+          linkText: 'View on GitHub',
+        ),
+        _ossCard(
+          eyebrow: 'Side Project · Solo Full-Stack',
+          title: 'MoodTune',
+          description:
+              'Upload any song and get its mood in about 30 seconds. FastAPI and '
+              'librosa analyze tempo, energy, and texture on the backend; Flutter '
+              'on the front, with Supabase auth and storage.',
+          href: 'https://github.com/jnnabugwu/moodtune_app',
+          linkText: 'View on GitHub',
+        ),
       ]),
     ]),
   ]);
+
+  Component _ossCard({
+    required String eyebrow,
+    required String title,
+    required String description,
+    required String href,
+    required String linkText,
+  }) =>
+      div(classes: 'oss-card-off', [
+        div(classes: 'flex-1', [
+          div(classes: 'oss-eyebrow oss-eyebrow--teal', [.text(eyebrow)]),
+          div(classes: 'oss-title oss-title--sm', [.text(title)]),
+          p(classes: 'oss-desc oss-desc--no-mb', [.text(description)]),
+        ]),
+        a(
+          href: href,
+          classes: 'btn btn-ghost btn-sm flex-shrink-0',
+          [.text(linkText)],
+        ),
+      ]);
 
   Component _stack() => div(id: 'about', [
     div(classes: 'section fade-up', [
       div(classes: 'section-label', [.text('05 — Stack & Skills')]),
       h2(classes: 'section-heading', [.text('Tools I trust.')]),
       div(classes: 'stack-grid', [
-        _stackRow('UI', ['Flutter', 'Dart', 'Jaspr'], isTech: true),
-        _stackRow('State', ['BLoC', 'Cubit', 'Riverpod'], isTech: true),
+        _stackRow('Mobile', ['Flutter', 'Dart', 'Swift'], isTech: true),
+        _stackRow(
+          'Web',
+          ['React', 'Next.js', 'TypeScript', 'Tailwind', 'Vue', 'Jaspr'],
+          isTech: true,
+        ),
+        _stackRow(
+          'State',
+          ['BLoC', 'Cubit', 'Riverpod', 'Zustand', 'React Query'],
+          isTech: true,
+        ),
         _stackRow(
           'Backend',
-          ['Firebase', 'Supabase', 'AWS', 'GraphQL', 'FastAPI'],
+          [
+            'Node.js',
+            'PostgreSQL',
+            'Supabase',
+            'Firebase',
+            'FastAPI',
+            'GraphQL',
+            'AWS',
+            'Stripe',
+          ],
           isTech: true,
         ),
         _stackRow(
           'Tooling',
-          ['CodeMagic', 'Git', 'Sentry', 'Talker'],
+          ['CodeMagic', 'GitHub Actions', 'Vercel', 'Railway', 'Sentry', 'Talker'],
+          isTech: false,
+        ),
+        _stackRow(
+          'AI',
+          ['Claude Code', 'Claude Design', 'Cursor'],
           isTech: false,
         ),
       ]),
@@ -301,14 +399,14 @@ class Home extends StatelessComponent {
       div(classes: 'contact-card', [
         h2(classes: 'contact-heading', [.text("Let's build something.")]),
         p(classes: 'contact-sub', [
-          .text('Available for contract and full-time roles.'),
+          .text('Open to conversations.'),
         ]),
+        a(
+          href: 'mailto:jordannnabugwu@gmail.com',
+          classes: 'contact-email',
+          [.text('jordannnabugwu@gmail.com')],
+        ),
         div(classes: 'contact-links', [
-          a(
-            href: 'mailto:jordannnabugwu@gmail.com',
-            classes: 'btn btn-cta',
-            [.text('Get in Touch')],
-          ),
           a(
             href: 'https://github.com/jnnabugwu',
             classes: 'btn btn-secondary',
@@ -328,7 +426,7 @@ class Home extends StatelessComponent {
     p([
       .text('Built with Jaspr · '),
       span([.text('©')]),
-      .text(' 2025 Jordan Nnabugwu'),
+      .text(' 2026 Jordan Nnabugwu'),
     ]),
   ]);
 }
