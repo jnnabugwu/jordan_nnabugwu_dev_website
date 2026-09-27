@@ -303,12 +303,12 @@ class Home extends StatelessComponent {
         p(classes: 'contact-sub', [
           .text('Available for contract and full-time roles.'),
         ]),
+        a(
+          href: 'mailto:jordannnabugwu@gmail.com',
+          classes: 'contact-email',
+          [.text('jordannnabugwu@gmail.com')],
+        ),
         div(classes: 'contact-links', [
-          a(
-            href: 'mailto:jordannnabugwu@gmail.com',
-            classes: 'btn btn-cta',
-            [.text('Get in Touch')],
-          ),
           a(
             href: 'https://github.com/jnnabugwu',
             classes: 'btn btn-secondary',
