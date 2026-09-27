@@ -1,0 +1,64 @@
+# Builds the Jaspr site on every PR, and deploys it to Cloudflare Pages
+# (project "dev-website", served at jnnabugwu.dev) on every push to main.
+#
+# Required repo secrets:
+#   CLOUDFLARE_API_TOKEN   – token with "Cloudflare Pages: Edit" permission
+#   CLOUDFLARE_ACCOUNT_ID  – the Cloudflare account that owns the Pages project
+name: Build & Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Analyze
+        run: dart analyze lib
+
+      - name: Build site
+        run: dart run jaspr_cli:jaspr build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: build/jaspr
+
+  deploy:
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: build/jaspr
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # No --branch and no git checkout in this job, so wrangler deploys to
+          # the project's production branch whatever it's named.
+          command: pages deploy build/jaspr --project-name=dev-website
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
