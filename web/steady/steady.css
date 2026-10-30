@@ -1,0 +1,168 @@
+/* Steady's pages on Jordan's site. Plain HTML + this file, no build step:
+   Jaspr copies web/ into the build as-is. Colours are Steady's own
+   "Native Glass" tokens (steady/docs/steady_product_overview.md §10), not
+   the portfolio's. */
+
+:root {
+  --bg: #0A0C0C;
+  --bg-deep: #060807;
+  --glass: rgba(255,255,255,0.045);
+  --glass-border: rgba(255,255,255,0.08);
+  --glass-highlight: rgba(255,255,255,0.06);
+  --text: #E9EDEC;
+  --text-2: #A9B2B0;
+  --text-3: #8A9391;
+  --muted: #7E8886;
+  --teal: #6DA8A0;
+  --teal-light: #8FC4BC;
+  --teal-tint: rgba(109,168,160,0.10);
+  --teal-border: rgba(109,168,160,0.28);
+  --eaten: #C2A57B;
+  --burned: #A98FA8;
+  --steps: #7F9AC2;
+  --radius: 22px;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  background: var(--bg);
+  background-image: radial-gradient(ellipse 90% 50% at 50% -10%, rgba(109,168,160,0.16), transparent 70%);
+  background-repeat: no-repeat;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a { color: var(--teal-light); text-underline-offset: 3px; }
+a:hover { color: var(--text); }
+
+:focus-visible { outline: 2px solid var(--teal-light); outline-offset: 3px; border-radius: 6px; }
+
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+.narrow { max-width: 720px; }
+
+/* ─── Top bar ─── */
+.topbar { padding: 20px 0; }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; font-weight: 600; font-size: 17px; }
+.brand img { width: 32px; height: 32px; border-radius: 8px; }
+.topnav { display: flex; gap: 22px; font-size: 15px; }
+.topnav a { color: var(--text-2); text-decoration: none; }
+.topnav a:hover, .topnav a[aria-current="page"] { color: var(--text); }
+
+/* ─── Hero ─── */
+.hero { padding: 56px 0 72px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
+.eyebrow { color: var(--teal-light); font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 16px; }
+h1 { font-family: var(--font-display); font-size: clamp(38px, 5.4vw, 60px); line-height: 1.05; letter-spacing: -0.025em; font-weight: 700; }
+.lead { margin-top: 22px; font-size: 19px; color: var(--text-2); max-width: 520px; }
+.hero-cta { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.badge { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; background: var(--teal-tint); border: 1px solid var(--teal-border); color: var(--teal-light); font-size: 15px; font-weight: 600; }
+.badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); }
+.hero-cta .note { font-size: 15px; color: var(--text-3); }
+.hero-shot { justify-self: center; }
+
+.phone { width: 100%; max-width: 300px; border-radius: 38px; border: 1px solid var(--glass-border); box-shadow: 0 30px 80px rgba(0,0,0,0.55), inset 0 1px 0 var(--glass-highlight); display: block; height: auto; }
+
+/* ─── Sections ─── */
+section { padding: 56px 0; }
+h2 { font-family: var(--font-display); font-size: clamp(28px, 3.4vw, 38px); line-height: 1.15; letter-spacing: -0.02em; font-weight: 700; }
+.section-lead { margin-top: 14px; color: var(--text-2); max-width: 640px; }
+
+.card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: var(--radius); box-shadow: inset 0 1px 0 var(--glass-highlight); padding: 26px; }
+
+/* Who it's for */
+.fit { margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.fit h3 { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+.fit ul { list-style: none; display: grid; gap: 12px; }
+.fit li { position: relative; padding-left: 26px; color: var(--text-2); }
+.fit li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 12px; height: 6px; border-radius: 3px; background: var(--teal); }
+.fit .not li::before { background: rgba(255,255,255,0.16); }
+.fit li strong { color: var(--text); font-weight: 600; }
+
+/* Features */
+.feature { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; padding: 40px 0; }
+.feature + .feature { border-top: 1px solid var(--glass-border); }
+.feature:nth-of-type(even) .feature-shot { order: -1; }
+.feature-shot { justify-self: center; }
+.feature-shot .phone { max-width: 270px; }
+.crop { width: 100%; max-width: 440px; height: auto; display: block; border-radius: var(--radius); border: 1px solid var(--glass-border); box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
+.feature h3 { font-family: var(--font-display); font-size: 26px; line-height: 1.2; letter-spacing: -0.015em; font-weight: 700; }
+.feature p { margin-top: 14px; color: var(--text-2); }
+.feature .kicker { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; }
+.k-eaten { color: var(--eaten); }
+.k-burned { color: var(--burned); }
+.k-steps { color: var(--steps); }
+.k-teal { color: var(--teal-light); }
+
+/* Privacy strip */
+.privacy-grid { margin-top: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.privacy-grid h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+.privacy-grid p { color: var(--text-3); font-size: 15px; }
+
+/* Requirements */
+.reqs { margin-top: 24px; display: grid; gap: 12px; }
+.reqs div { display: grid; grid-template-columns: 180px 1fr; gap: 16px; padding: 14px 0; border-top: 1px solid var(--glass-border); }
+.reqs dt { color: var(--muted); font-size: 15px; }
+.reqs dd { color: var(--text-2); }
+
+/* ─── Long-form pages (privacy, support) ─── */
+.doc { padding: 40px 0 64px; }
+.doc h1 { font-size: clamp(34px, 4.6vw, 48px); }
+.doc .meta { margin-top: 12px; color: var(--muted); font-size: 15px; }
+.doc h2 { font-size: 24px; margin-top: 44px; }
+.doc h3 { font-size: 18px; margin-top: 28px; font-weight: 600; }
+.doc p, .doc li { color: var(--text-2); }
+.doc p { margin-top: 14px; }
+.doc ul { margin-top: 14px; padding-left: 22px; display: grid; gap: 10px; }
+.doc li::marker { color: var(--teal); }
+.doc strong { color: var(--text); font-weight: 600; }
+.doc .summary { margin-top: 28px; }
+.doc .summary ul { margin-top: 0; }
+
+.faq details { border-top: 1px solid var(--glass-border); padding: 18px 0; }
+.faq details:last-of-type { border-bottom: 1px solid var(--glass-border); }
+.faq summary { cursor: pointer; font-weight: 600; color: var(--text); list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--teal-light); font-weight: 400; font-size: 22px; line-height: 1; }
+.faq details[open] summary::after { content: "–"; }
+.faq details > *:not(summary) { margin-top: 10px; }
+
+.contact { margin-top: 28px; }
+.contact .big { font-size: 20px; font-weight: 600; margin-top: 6px; display: inline-block; word-break: break-all; }
+
+/* ─── Footer ─── */
+footer { padding: 40px 0 56px; border-top: 1px solid var(--glass-border); margin-top: 40px; color: var(--muted); font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; }
+footer nav { display: flex; flex-wrap: wrap; gap: 20px; }
+footer a { color: var(--text-3); text-decoration: none; }
+footer a:hover { color: var(--text); }
+
+/* ─── Small screens ─── */
+@media (max-width: 820px) {
+  .hero { grid-template-columns: 1fr; padding: 32px 0 48px; gap: 40px; }
+  .hero-shot .phone { max-width: 260px; }
+  .fit { grid-template-columns: 1fr; }
+  .feature { grid-template-columns: 1fr; gap: 28px; padding: 32px 0; }
+  .feature:nth-of-type(even) .feature-shot { order: 0; }
+  .feature-shot .phone { max-width: 240px; }
+  .privacy-grid { grid-template-columns: 1fr; }
+  .reqs div { grid-template-columns: 1fr; gap: 4px; }
+}
+
+@media (max-width: 480px) {
+  .wrap { padding: 0 16px; }
+  .topnav { gap: 16px; font-size: 14px; }
+  .brand span { display: none; }
+  body { font-size: 16px; }
+  .lead { font-size: 17px; }
+  .card { padding: 20px; }
+}
