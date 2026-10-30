@@ -304,14 +304,30 @@ class Home extends StatelessComponent {
           linkText: 'View on GitHub',
         ),
         _ossCard(
+          eyebrow: 'Side Project · Solo iOS',
+          title: 'Steady',
+          description:
+              'An iPhone app for people who already track their food: calories '
+              'eaten next to burned, steps and weight trend from Apple Health, a '
+              'one-tap end-of-day check-in, and a coach running on-device with '
+              'Apple Foundation Models. Flutter, HealthKit, SwiftData and '
+              'CloudKit, with no backend.',
+          href: '/steady/',
+          linkText: 'Visit Site',
+          secondaryHref: 'https://github.com/jnnabugwu/steady',
+          secondaryLinkText: 'View on GitHub',
+        ),
+        _ossCard(
           eyebrow: 'Side Project · Solo Full-Stack',
           title: 'MoodTune',
           description:
               'Upload any song and get its mood in about 30 seconds. FastAPI and '
               'librosa analyze tempo, energy, and texture on the backend; Flutter '
               'on the front, with Supabase auth and storage.',
-          href: 'https://github.com/jnnabugwu/moodtune_app',
-          linkText: 'View on GitHub',
+          href: 'https://getmoodtune.com',
+          linkText: 'Visit Site',
+          secondaryHref: 'https://github.com/jnnabugwu/moodtune_app',
+          secondaryLinkText: 'View on GitHub',
         ),
       ]),
     ]),
@@ -323,6 +339,8 @@ class Home extends StatelessComponent {
     required String description,
     required String href,
     required String linkText,
+    String? secondaryHref,
+    String? secondaryLinkText,
   }) =>
       div(classes: 'oss-card-off', [
         div(classes: 'flex-1', [
@@ -330,11 +348,15 @@ class Home extends StatelessComponent {
           div(classes: 'oss-title oss-title--sm', [.text(title)]),
           p(classes: 'oss-desc oss-desc--no-mb', [.text(description)]),
         ]),
-        a(
-          href: href,
-          classes: 'btn btn-ghost btn-sm flex-shrink-0',
-          [.text(linkText)],
-        ),
+        div(classes: 'oss-links flex-shrink-0', [
+          a(href: href, classes: 'btn btn-ghost btn-sm', [.text(linkText)]),
+          if (secondaryHref != null && secondaryLinkText != null)
+            a(
+              href: secondaryHref,
+              classes: 'btn btn-ghost btn-sm',
+              [.text(secondaryLinkText)],
+            ),
+        ]),
       ]);
 
   Component _stack() => div(id: 'about', [

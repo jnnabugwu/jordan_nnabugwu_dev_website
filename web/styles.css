@@ -396,6 +396,8 @@ body {
   transition: border-color 0.2s;
 }
 .oss-card-off:hover { border-color: rgba(0,212,168,0.32); }
+.oss-links { display: flex; flex-direction: column; gap: 8px; }
+.oss-links .btn { justify-content: center; }
 
 .oss-eyebrow {
   font-family: var(--font-mono);
@@ -539,5 +541,6 @@ footer span { color: var(--accent); }
   .cred-strip { padding: 16px 24px; }
   .oss-card-fluttercon { grid-template-columns: 1fr; }
   .oss-card-off { flex-direction: column; align-items: flex-start; }
+  .oss-links { flex-direction: row; flex-wrap: wrap; }
   .contact-card { padding: 36px 24px; }
 }
