@@ -304,7 +304,7 @@ class Home extends StatelessComponent {
           linkText: 'View on GitHub',
         ),
         _ossCard(
-          eyebrow: 'Side Project · Solo iOS',
+          eyebrow: 'Side Project · Live on App Store',
           title: 'Steady',
           description:
               'An iPhone app for people who already track their food: calories '
