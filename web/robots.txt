@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jnnabugwu.dev/sitemap.xml

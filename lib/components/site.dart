@@ -48,6 +48,7 @@ class SiteHeader extends StatelessComponent {
 
   @override
   Component build(BuildContext context) => header([
+    a(href: '#main', classes: 'skip', [.text('Skip to content')]),
     div(classes: 'wrap', [
       a(href: '/', classes: 'name', [.text('Jordan Nnabugwu')]),
       nav(attributes: {'aria-label': 'Main navigation'}, [

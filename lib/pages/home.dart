@@ -14,7 +14,7 @@ class Home extends StatelessComponent {
     return div([
       blobClipDefs(),
       const SiteHeader(),
-      main_(classes: 'wrap', [
+      main_(id: 'main', classes: 'wrap', [
         _hero(),
         _proof(),
         _offers(),
@@ -58,6 +58,12 @@ class Home extends StatelessComponent {
         img(
           src: '/assets/photo-hero-1400.jpg',
           alt: 'Jordan in a hot air balloon basket',
+          attributes: {
+            'srcset':
+                '/assets/photo-hero-800.webp 800w, /assets/photo-hero-1400.webp 1400w',
+            'sizes': '(max-width: 760px) 88vw, 420px',
+            'fetchpriority': 'high',
+          },
         ),
       ]),
       blobShape('b3', blobC, '#A5DEC4'),
@@ -76,18 +82,17 @@ class Home extends StatelessComponent {
     .text(' (1M+ downloads), and '),
     b([.text('Whisker')]),
     .text(
-      ' (500K users). Two apps of my own on the App Store. '
+      ' (500K users). My own app Steady is on the App Store, and MoodTune is in TestFlight. '
       'FlutterCon speaker, 2025 and 2026.',
     ),
   ]);
 
-  Component _offer(String title, String forWho, String body, [String? proof]) =>
-      div(classes: 'offer', [
-        h3([.text(title)]),
-        div(classes: 'for', [.text(forWho)]),
-        p([.text(body)]),
-        if (proof != null) div(classes: 'proofline', [.text(proof)]),
-      ]);
+  Component _offer(String title, String forWho, String body, [String? proof]) => div(classes: 'offer', [
+    h3([.text(title)]),
+    div(classes: 'for', [.text(forWho)]),
+    p([.text(body)]),
+    if (proof != null) div(classes: 'proofline', [.text(proof)]),
+  ]);
 
   Component _offers() => section([
     sectionHead('What you can hire me for', 'Pick the one that sounds like your problem.'),
@@ -97,7 +102,7 @@ class Home extends StatelessComponent {
         'You have an idea or a design and a deadline.',
         'An iOS and Android app, the backend it needs, and the App Store and '
             'Google Play submission.',
-        'Steady and MoodTune: built and shipped solo',
+        'Steady (App Store) and MoodTune (TestFlight): built solo',
       ),
       _offer(
         'Take over your app',
@@ -202,7 +207,7 @@ class Home extends StatelessComponent {
   Component _speaking() => section(id: 'talk', [
     div(classes: 'talk', [
       div([
-        div(classes: 'k', [.text('Speaking & writing')]),
+        h2(classes: 'k', [.text('Speaking & writing')]),
         ul(classes: 'talks', [
           li([
             div(classes: 'when', [.text('FlutterCon USA · New York, 2025 · Lightning talk')]),
@@ -239,7 +244,7 @@ class Home extends StatelessComponent {
   ]);
 
   Component _projects() => section(id: 'projects', [
-    sectionHead('My own apps', 'Built and shipped alone.'),
+    sectionHead('My own apps', 'Built alone.'),
     listRow(
       name: 'Steady',
       context: 'On the App Store · Aug 2026',
@@ -257,7 +262,7 @@ class Home extends StatelessComponent {
     ),
     listRow(
       name: 'MoodTune',
-      context: 'iOS, Android, and web · Dec 2025',
+      context: 'In TestFlight · Dec 2025',
       description:
           'Upload a song and get its mood. The audio model runs on the phone, with '
           'a timeout, a backend fallback, and a remote kill switch. 86% test '

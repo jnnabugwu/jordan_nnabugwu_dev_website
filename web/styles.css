@@ -32,8 +32,8 @@ header nav a:hover{color:var(--text)}
 .links{display:flex;gap:24px;align-items:center;margin-top:36px;flex-wrap:wrap}
 .btn{background:var(--pale);color:var(--black);text-decoration:none;font-weight:600;padding:12px 22px;border-radius:999px}
 .btn:hover{background:var(--text)}
-.tl{text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--forest);text-decoration-thickness:2px}
-.tl:hover{text-decoration-color:var(--mint)}
+.tl{text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--mint);text-decoration-thickness:2px}
+.tl:hover{text-decoration-color:var(--pale)}
 
 .art{position:relative;aspect-ratio:1/1.12}
 .art svg{position:absolute}
@@ -59,7 +59,7 @@ section{padding:72px 0;border-top:1px solid var(--line)}
 
 /* talk */
 .talk{background:var(--forest);border-radius:28px;padding:48px;display:grid;grid-template-columns:1fr 220px;gap:40px;align-items:center;position:relative;overflow:hidden}
-.talk .k{color:var(--pale);font-size:14px}
+.talk .k{color:var(--pale);font:400 14px var(--body)}
 .talk h3{font-family:var(--display);font-weight:500;font-size:36px;line-height:1.1;margin:8px 0 14px;letter-spacing:-.01em}
 .talk p{max-width:32em;color:#d4ebdf}
 .talk .tl{text-decoration-color:var(--pale);display:inline-block;margin-top:20px}
@@ -78,9 +78,9 @@ footer{color:var(--muted);font-size:14px;padding:28px 0 40px}
 @media (max-width:760px){
   .wrap{padding:0 16px}
   header nav{gap:16px;font-size:14px}
-  header nav a:not(:last-child){display:none}
+  header nav .btn{display:none}
   .hero{grid-template-columns:1fr;padding:24px 0 64px}
-  .art{max-width:420px;width:88%;margin:0 auto;order:-1}
+  .art{max-width:300px;width:80%;margin:8px auto 0}
   .sh,.row{grid-template-columns:1fr;gap:6px}
   .talk{grid-template-columns:1fr;padding:32px 24px}
   .talk .face{width:160px;height:160px}
@@ -138,7 +138,6 @@ mark.fill{background:rgba(255,214,102,.18);color:#FFD666;border:1px dashed #FFD6
   .about{grid-template-columns:1fr}
   .about .face{width:180px;height:180px;order:-1}
   .cta{padding:36px 24px}
-  header nav a:not(:last-child){display:none}
 }
 
 html,body{overflow-x:clip}
@@ -153,3 +152,16 @@ html,body{overflow-x:clip}
 .talk .face{margin-top:40px}
 .hero p.built{font-size:15px;margin-top:12px;color:var(--mint)}
 .about .sh{margin-bottom:20px}
+
+/* review fixes: focus, skip link, touch targets */
+:focus-visible{outline:2px solid var(--pale);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;left:16px;top:-48px;background:var(--pale);color:var(--black);font-weight:600;padding:10px 16px;border-radius:999px;text-decoration:none;z-index:10}
+.skip:focus{top:12px}
+header{position:relative}
+@media (max-width:760px){
+  header .wrap{align-items:center}
+  header nav{align-items:center}
+  header nav a{padding:12px 0;white-space:nowrap}
+  .links .tl,.rl .tl,.more .tl,footer .tl{display:inline-block;padding:10px 0}
+  .links .btn{padding:14px 24px}
+}

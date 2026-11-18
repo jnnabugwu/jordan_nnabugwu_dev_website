@@ -11,7 +11,7 @@ class WorkWithMe extends StatelessComponent {
     return div([
       blobClipDefs(),
       const SiteHeader(),
-      main_(classes: 'wrap', [
+      main_(id: 'main', classes: 'wrap', [
         _intro(),
         _about(),
         _goodAt(),
@@ -51,7 +51,7 @@ class WorkWithMe extends StatelessComponent {
           .text(
             "I'm Jordan. I've spent 5+ years shipping iOS and Android apps, at Very "
             "Good Ventures, at startups, and on contract. I've worked on apps with "
-            '500K users and 1M+ downloads, built and shipped two apps of my own, and '
+            '500K users and 1M+ downloads, built two apps of my own (one on the App Store, one in TestFlight), and '
             'spoken at FlutterCon in 2025 and 2026. On mobile I build in Flutter; on '
             'the web, React and Next.js.',
           ),
@@ -65,7 +65,11 @@ class WorkWithMe extends StatelessComponent {
         ]),
       ]),
       div(classes: 'face', [
-        img(src: '/assets/photo-fluttercon.png', alt: 'Jordan Nnabugwu'),
+        img(
+          src: '/assets/headshot-640.jpg',
+          alt: 'Jordan Nnabugwu',
+          attributes: {'srcset': '/assets/headshot-640.webp'},
+        ),
       ]),
     ]),
   ]);
