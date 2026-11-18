@@ -1,454 +1,283 @@
 import 'package:jaspr/dom.dart';
 import 'package:jaspr/jaspr.dart';
 
+import '../components/site.dart';
+
+const _sduiPostUrl =
+    'https://www.verygood.ventures/blog/how-server-driven-ui-sdui-changed-the-way-i-think-about-mobile-development';
+
 class Home extends StatelessComponent {
   const Home({super.key});
 
   @override
   Component build(BuildContext context) {
     return div([
-      _nav(),
-      _hero(),
-      _proofBar(),
-      _credibilityStrip(),
-      _work(),
-      _openSource(),
-      _stack(),
-      _contact(),
-      _footer(),
-      // portfolio.js handles nav scroll, fade-up reveal, active links
-      script(attributes: {'src': '/portfolio.js', 'defer': ''}),
+      blobClipDefs(),
+      const SiteHeader(),
+      main_(classes: 'wrap', [
+        _hero(),
+        _proof(),
+        _offers(),
+        _work(),
+        _speaking(),
+        _projects(),
+        ctaBand(
+          heading: 'Have an app to build or fix?',
+          body:
+              "Book a call and tell me what you're building. "
+              "I'll tell you if I'm a fit and what it would take.",
+        ),
+      ]),
+      const SiteFooter(),
     ]);
   }
 
-  Component _nav() => nav(
-    id: 'nav',
-    classes: 'nav',
-    attributes: {'aria-label': 'Main navigation'},
-    [
-      div(classes: 'nav-inner', [
-        a(href: '#top', classes: 'nav-logo', [
-          .text('JN'),
-          span([.text('.')]),
-        ]),
-        div(classes: 'nav-links', [
-          a(href: '#work', classes: 'nav-link', [.text('Work')]),
-          a(href: '#about', classes: 'nav-link', [.text('About')]),
-          a(href: '#open-source', classes: 'nav-link', [.text('Open Source')]),
-          a(href: '#contact', classes: 'nav-link nav-cta', [.text('Get in Touch')]),
-        ]),
+  Component _hero() => div(classes: 'hero', [
+    div([
+      h1([
+        .text('I build mobile apps for iOS and Android, '),
+        span(classes: 'g', [.text('and get them into the respective stores.')]),
       ]),
-    ],
-  );
-
-  Component _hero() => section(
-    id: 'top',
-    classes: 'hero',
-    [
-      img(
-        src: '/assets/photo-hero.jpeg',
-        alt: 'Jordan Nnabugwu',
-        classes: 'hero-photo',
-      ),
-      div(classes: 'hero-overlay', []),
-      div(classes: 'hero-content', [
-        div(classes: 'hero-eyebrow', [
-          .text('Flutter · Next.js · Full-Stack Engineering'),
-        ]),
-        h1(classes: 'hero-h1', [
-          .text('Apps that '),
-          em([.text('work')]),
-          br(),
-          .text('at scale.'),
-        ]),
-        p(classes: 'hero-lead', [
-          .text(
-            'Full-stack engineer with 5+ years shipping consumer and enterprise apps — '
-            'Flutter on mobile, Next.js on the web, Node and Python behind them. '
-            'From architecture to App Store — I own it end-to-end.',
-          ),
-        ]),
-        div(classes: 'hero-cta-row', [
-          a(href: '#contact', classes: 'btn btn-cta', [.text('Get in Touch')]),
-          a(href: '#work', classes: 'btn btn-secondary', [.text('View My Work')]),
-        ]),
+      p([
+        .text(
+          'Plus everything around them: the backend, payments, AI features, '
+          'and the web side in React and Next.js. Available for contract work '
+          'and full-time roles.',
+        ),
       ]),
-    ],
-  );
-
-  Component _proofBar() => div(classes: 'proof-bar', [
-    div(classes: 'proof-bar-inner', [
-      div(classes: 'proof-stat', [
-        div(classes: 'proof-value', [
-          .text('1M'),
-          span(classes: 'proof-sup', [.text('+')]),
-        ]),
-        div(classes: 'proof-label', [.text('Downloads — Open Food Facts')]),
+      p(classes: 'built', [.text('5+ years shipping, built in Flutter.')]),
+      div(classes: 'links', [
+        a(href: calendlyUrl, classes: 'btn', [.text('Book a call')]),
+        a(href: '/work-with-me', classes: 'tl', [.text('What you can hire me for')]),
       ]),
-      div(classes: 'proof-stat', [
-        div(classes: 'proof-value', [.text('500K')]),
-        div(classes: 'proof-label', [.text('Users — Whisker App')]),
+    ]),
+    div(classes: 'art', [
+      blobShape('b1', blobB, '#285744'),
+      blobShape('b2', blobC, '#57B392'),
+      div(classes: 'photo', [
+        img(
+          src: '/assets/photo-hero-1400.jpg',
+          alt: 'Jordan in a hot air balloon basket',
+        ),
       ]),
-      div(classes: 'proof-stat', [
-        div(classes: 'proof-value', [
-          .text('5'),
-          span(classes: 'proof-sup', [.text('+')]),
-        ]),
-        div(classes: 'proof-label', [.text('Years shipping production apps')]),
-      ]),
-      div(classes: 'proof-stat', [
-        div(classes: 'proof-value proof-value--sm', [.text('FlutterCon')]),
-        div(classes: 'proof-label', [.text('Speaker — New York 2025')]),
-      ]),
+      blobShape('b3', blobC, '#A5DEC4'),
     ]),
   ]);
 
-  Component _credibilityStrip() => div(classes: 'cred-strip', [
-    div(classes: 'cred-strip-inner', [
-      span(classes: 'cred-label', [.text('Built for')]),
-      div(classes: 'cred-names', [
-        span(classes: 'cred-name', [.text('Vamp')]),
-        span(classes: 'cred-name', [.text('SkillTap')]),
-        span(classes: 'cred-name', [.text('Very Good Ventures')]),
-        span(classes: 'cred-name', [.text('Trackhouse Racing')]),
-        span(classes: 'cred-name', [.text('Whisker')]),
-        span(classes: 'cred-name', [.text('Open Food Facts')]),
-      ]),
-    ]),
+  Component _proof() => p(classes: 'proof', [
+    .text('Shipped for '),
+    b([.text('SkillTap')]),
+    .text(', '),
+    b([.text('Vamp')]),
+    .text(', '),
+    b([.text('Very Good Ventures')]),
+    .text(" (Scooter's Coffee, Trackhouse Racing), "),
+    b([.text('Open Food Facts')]),
+    .text(' (1M+ downloads), and '),
+    b([.text('Whisker')]),
+    .text(
+      ' (500K users). Two apps of my own on the App Store. '
+      'FlutterCon speaker, 2025 and 2026.',
+    ),
   ]);
 
-  Component _work() => div(id: 'work', [
-    div(classes: 'section fade-up', [
-      div(classes: 'section-label', [.text('03 — Selected Work')]),
-      h2(classes: 'section-heading', [.text("What I've shipped.")]),
-      p(classes: 'section-sub', [
-        .text('Real products, real users. Each one owned end-to-end.'),
-      ]),
-      div(classes: 'projects-grid', [
-        _projectCard(
-          meta: 'FTE · Electric Rideshare',
-          name: 'Vamp',
-          icon: '⚡',
-          description:
-              'Premium electric rideshare across Dallas–Fort Worth. Ship end-to-end '
-              'across the Flutter rider app, Next.js admin dashboard, and Node '
-              'backend — live rider tracking, airport pickups, async report '
-              'generation, and shift tracking for fleet operations.',
-          techTags: ['Flutter', 'Next.js', 'TypeScript', 'Node.js'],
-        ),
-        _projectCard(
-          meta: 'Contract · Hiring Platform',
-          name: 'SkillTap',
-          icon: '🧰',
-          description:
-              'Took over a two-sided hiring platform from an outsourced team with no '
-              'handover or tests. Led a security hardening pass, migrated off AWS to '
-              'Supabase, shipped Stripe checkout for employer job posts, and took the '
-              'Flutter app from 0 to 400+ automated tests.',
-          techTags: ['Flutter', 'Node.js', 'PostgreSQL', 'Stripe', 'Vue'],
-        ),
-        _projectCard(
-          meta: 'Fulcro Labs · Live on App Store',
-          name: 'What Are You Reading',
-          icon: '📚',
-          description:
-              'Social reading app for book lovers. Owned CodeMagic CI/CD for iOS '
-              'and Android, and built reporting, user blocking, and an EULA gate '
-              'end-to-end to clear App Store and Google Play UGC review.',
-          techTags: ['Flutter', 'Supabase', 'Next.js', 'CodeMagic'],
-        ),
-        _projectCard(
-          meta: 'VGV · Native-to-Flutter',
-          name: 'Scooters Coffee',
-          icon: '☕',
-          description:
-              'Native-to-Flutter migration for a coffee brand. Shipped CI/CD in '
-              'CodeMagic for all 4 developers, drove test coverage from near-zero, '
-              'and integrated Firebase Authentication, Crashlytics, and Performance.',
-          techTags: ['Flutter', 'CodeMagic', 'Firebase'],
-          neutralTags: ['Very Good Ventures'],
-        ),
-        _projectCard(
-          meta: 'VGV · Race Engineering',
-          name: 'Trackhouse Racing',
-          icon: '🏁',
-          description:
-              'Video analysis tool for race engineers. Debugged a seek/playback '
-              'UX issue end-to-end and identified a backend data contract gap that '
-              'unblocked accurate timeline interactions.',
-          techTags: ['Flutter', 'Talker'],
-          neutralTags: ['Very Good Ventures'],
-        ),
-        _projectCard(
-          meta: 'FTE · 500K users',
-          name: 'Whisker',
-          icon: '🐾',
-          description:
-              'Full-stack pet-care app serving 500K users. Built IoT device controls, '
-              'a user analytics dashboard, and accessibility improvements using '
-              'Flutter, AWS, and GraphQL.',
-          techTags: ['Flutter', 'AWS', 'GraphQL'],
-        ),
-        _projectCard(
-          meta: 'Open Source · 1M+ downloads',
-          name: 'Open Food Facts',
-          icon: '🥫',
-          description:
-              'Contributed to a 1M+ download food database app. Implemented deep '
-              'linking for sign-up and password recovery, and integrated a '
-              'spell-checker on the product edit screen.',
-          techTags: ['Flutter', 'Dart'],
-          neutralTags: ['Open Source'],
-        ),
-        _projectCard(
-          meta: 'Client · Travel',
-          name: 'Queue Travel',
-          icon: '✈️',
-          description:
-              'App for flight updates and live TSA wait times. Integrated Supabase '
-              'Auth with secure token storage and used BLoC with go_router for '
-              'deep-link-friendly navigation.',
-          techTags: ['Flutter', 'Supabase', 'BLoC'],
-        ),
-      ]),
-    ]),
-  ]);
-
-  Component _projectCard({
-    required String meta,
-    required String name,
-    required String icon,
-    required String description,
-    required List<String> techTags,
-    List<String> neutralTags = const [],
-  }) =>
-      div(classes: 'project-card', [
-        div(classes: 'project-card-top', [
-          div([
-            div(classes: 'project-meta', [.text(meta)]),
-            div(classes: 'project-name', [.text(name)]),
-          ]),
-          div(classes: 'project-icon', [.text(icon)]),
-        ]),
-        p(classes: 'project-desc', [.text(description)]),
-        div(classes: 'project-tags', [
-          for (final tag in techTags) span(classes: 'tag tag-tech', [.text(tag)]),
-          for (final tag in neutralTags) span(classes: 'tag tag-neutral', [.text(tag)]),
-        ]),
+  Component _offer(String title, String forWho, String body, [String? proof]) =>
+      div(classes: 'offer', [
+        h3([.text(title)]),
+        div(classes: 'for', [.text(forWho)]),
+        p([.text(body)]),
+        if (proof != null) div(classes: 'proofline', [.text(proof)]),
       ]);
 
-  Component _openSource() => div(id: 'open-source', [
-    div(classes: 'section fade-up', [
-      div(classes: 'section-label', [.text('04 — Open Source, Projects & Speaking')]),
-      h2(classes: 'section-heading', [.text('Beyond the day job.')]),
-      p(classes: 'section-sub', [
-        .text("Contributing to the ecosystem and sharing what I've learned."),
-      ]),
-      div(classes: 'oss-grid', [
-        // FlutterCon card
-        div(classes: 'oss-card-fluttercon', [
-          div([
-            div(classes: 'oss-eyebrow oss-eyebrow--orange', [
-              .text('FlutterCon New York 2025 · Conference Talk'),
-            ]),
-            div(classes: 'oss-title', [.text('Server-Driven UI in Flutter')]),
-            p(classes: 'oss-desc', [
+  Component _offers() => section([
+    sectionHead('What you can hire me for', 'Pick the one that sounds like your problem.'),
+    div(classes: 'offers', [
+      _offer(
+        'Build your app',
+        'You have an idea or a design and a deadline.',
+        'An iOS and Android app, the backend it needs, and the App Store and '
+            'Google Play submission.',
+        'Steady and MoodTune: built and shipped solo',
+      ),
+      _offer(
+        'Take over your app',
+        'You inherited an app with no docs, no tests, and no handover.',
+        'I find the security holes, fix them, set up tests and releases, and '
+            'get it shipping again.',
+        'SkillTap: sole engineer, live on both stores',
+      ),
+      _offer(
+        'Add AI to your app',
+        'You want AI features people can trust.',
+        'On-device models or a server-side LLM, with fallbacks, kill switches, '
+            'and usage limits.',
+        'On-device coach on Apple Foundation Models',
+      ),
+      _offer(
+        'Join your team',
+        'You need another senior mobile engineer.',
+        'Contract or full-time. Mobile first, plus Node, Python, React, and '
+            'Next.js when the work crosses over.',
+      ),
+    ]),
+    p(classes: 'more', [
+      a(href: '/work-with-me', classes: 'tl', [.text('What you get and how it works')]),
+    ]),
+  ]);
+
+  Component _work() => section(id: 'work', [
+    sectionHead('Selected work', 'What I built and what changed.'),
+    listRow(
+      name: 'SkillTap',
+      context: 'Contract · Aug 2026 to now',
+      description:
+          'Sole engineer on a two-sided hiring platform I took over from an '
+          'outsourced team that left no handover, docs, or tests. Redesigned the '
+          'whole app onto a new design system, took it live on the App Store and '
+          'Google Play, and fixed a cross-tenant data leak and an account-takeover '
+          'hole in the API. The client had no way to charge employers, so I '
+          "proposed, priced, and shipped a \$197-per-post Stripe checkout in three "
+          "days, within Apple's and Google's payment rules.",
+      stack: 'Node.js, PostgreSQL, Stripe, Vue, Flutter',
+    ),
+    listRow(
+      name: 'Vamp',
+      context: 'Full-time · Sept to Oct 2026',
+      description:
+          'Electric rideshare in Dallas. Built FlightAware flight tracking for '
+          'airport pickups, so a delay moves the pickup and notifies the rider and '
+          'driver once. Built driver onboarding with SSNs encrypted in a collection '
+          'the app never sees. 60 merged PRs across 5 repos in 5 weeks.',
+      stack: 'Node.js, TypeScript, Next.js, Flutter',
+    ),
+    listRow(
+      name: 'What Are You Reading',
+      context: 'Fulcro Labs · May to Aug 2026',
+      description:
+          "Got a two-person team's social reading app through App Store review: "
+          'fixed signing on iOS and Android, built report, block, and '
+          'terms-acceptance flows, and set up Codemagic CI/CD. Live on the App Store.',
+      stack: 'Supabase, Codemagic, Flutter',
+    ),
+    listRow(
+      name: "Scooter's Coffee",
+      context: 'Very Good Ventures · 2025 to 2026',
+      description:
+          'Built the CI/CD pipeline for the move from native apps to Flutter, so '
+          'all four developers shipped builds automatically, and cut check time '
+          'per PR from 15 to 8 minutes.',
+      stack: 'Codemagic, Firebase, Flutter',
+    ),
+    listRow(
+      name: 'Trackhouse Racing',
+      context: 'Very Good Ventures · 2025 to 2026',
+      description:
+          'Seek and playback for a race telemetry video tool. Proved with a '
+          "standalone script that the backend data model couldn't resume "
+          'mid-shard, shipped app-side fixes, and gave the backend team a proposal '
+          'for what the API needed.',
+      stack: 'Talker, Flutter',
+    ),
+    listRow(
+      name: 'Open Food Facts',
+      context: 'Open source · 2024 to 2025',
+      description:
+          'A food database app with over 1 million Google Play downloads. Built '
+          'deep linking for sign-up and password recovery, and a spell-checker on '
+          'the product edit screen.',
+      stack: 'Dart, Flutter',
+      links: [('GitHub', 'https://github.com/openfoodfacts/smooth-app')],
+    ),
+    listRow(
+      name: 'Whisker',
+      context: 'Full-time · 2021 to 2023',
+      description:
+          'The Litter-Robot app, 500,000 users. Built features end to end, from '
+          'the app UI through AWS AppSync GraphQL to DynamoDB, and added VoiceOver '
+          'and TalkBack support.',
+      stack: 'AWS AppSync, GraphQL, DynamoDB, Flutter',
+    ),
+  ]);
+
+  Component _speaking() => section(id: 'talk', [
+    div(classes: 'talk', [
+      div([
+        div(classes: 'k', [.text('Speaking & writing')]),
+        ul(classes: 'talks', [
+          li([
+            div(classes: 'when', [.text('FlutterCon USA · New York, 2025 · Lightning talk')]),
+            h3([.text('Server-Driven UI in Flutter')]),
+            p([
               .text(
-                'How to build flexible, config-driven UIs that ship new screens '
-                'and flows without an app update — reducing release risk and '
-                'unlocking product velocity.',
+                'Letting the backend define layouts and components, so UI changes '
+                'ship without waiting on App Store review.',
               ),
             ]),
-            a(
-              href: 'https://hubs.ly/Q03G2Tsj0',
-              classes: 'btn btn-ghost btn-sm',
-              [.text('Watch the Talk')],
-            ),
           ]),
-          img(
-            src: '/assets/photo-fluttercon.png',
-            alt: 'Jordan at FlutterCon',
-            classes: 'speaker-photo',
-          ),
+          li([
+            div(classes: 'when', [.text('FlutterCon · Orlando, 2026')]),
+            h3([.text('Monorepos for enterprise Flutter')]),
+          ]),
+          li([
+            div(classes: 'when', [.text('Very Good Ventures blog · Aug 2025')]),
+            h3([.text('How Server-Driven UI changed the way I think about mobile development')]),
+            p([
+              .text(
+                'Where server-driven UI pays off (promo banners, personalization, '
+                "A/B tests) and where it doesn't (animations, gesture-heavy screens, "
+                'offline-first apps).',
+              ),
+            ]),
+            a(href: _sduiPostUrl, classes: 'tl', [.text('Read the post')]),
+          ]),
         ]),
-        _ossCard(
-          eyebrow: 'Open Source · 2 Merged PRs',
-          title: 'omi',
-          description:
-              'Open-source AI wearable app. Shipped a native macOS fix '
-              '(Swift/SwiftUI) for notification previews with an XCTest suite, and '
-              'replaced the Flutter app\'s single-date filter with a tested '
-              'date-range filter across conversations, home, and search.',
-          href: 'https://github.com/BasedHardware/omi/pulls?q=is%3Apr+author%3Ajnnabugwu',
-          linkText: 'View PRs',
-        ),
-        _ossCard(
-          eyebrow: 'Open Source · Contributor',
-          title: 'Open Food Facts',
-          description:
-              '1M+ download global food database. Deep linking for sign-up '
-              'and password recovery, spell-checker on the product edit screen, '
-              'and code review across a distributed team.',
-          href: 'https://github.com/openfoodfacts/smooth-app',
-          linkText: 'View on GitHub',
-        ),
-        _ossCard(
-          eyebrow: 'Side Project · Flutter Embedded',
-          title: 'BT Speaker Studio',
-          description:
-              'A Bluetooth speaker running Flutter on a Raspberry Pi Zero 2W. '
-              'Real-time FFT visualizer and a beat-synced LED ring driven by typed '
-              'WebSocket events, plus a companion mobile app, in a Melos monorepo '
-              'with GitHub Actions CI.',
-          href: 'https://github.com/jnnabugwu/bt_speaker',
-          linkText: 'View on GitHub',
-        ),
-        _ossCard(
-          eyebrow: 'Side Project · Live on App Store',
-          title: 'Steady',
-          description:
-              'An iPhone app for people who already track their food: calories '
-              'eaten next to burned, steps and weight trend from Apple Health, a '
-              'one-tap end-of-day check-in, and a coach running on-device with '
-              'Apple Foundation Models. Flutter, HealthKit, SwiftData and '
-              'CloudKit, with no backend.',
-          href: '/steady/',
-          linkText: 'Visit Site',
-          secondaryHref: 'https://github.com/jnnabugwu/steady',
-          secondaryLinkText: 'View on GitHub',
-        ),
-        _ossCard(
-          eyebrow: 'Side Project · Solo Full-Stack',
-          title: 'MoodTune',
-          description:
-              'Upload any song and get its mood in about 30 seconds. FastAPI and '
-              'librosa analyze tempo, energy, and texture on the backend; Flutter '
-              'on the front, with Supabase auth and storage.',
-          href: 'https://getmoodtune.com',
-          linkText: 'Visit Site',
-          secondaryHref: 'https://github.com/jnnabugwu/moodtune_app',
-          secondaryLinkText: 'View on GitHub',
-        ),
+      ]),
+      div(classes: 'face', [
+        img(src: '/assets/photo-fluttercon.png', alt: 'Jordan speaking at FlutterCon'),
       ]),
     ]),
   ]);
 
-  Component _ossCard({
-    required String eyebrow,
-    required String title,
-    required String description,
-    required String href,
-    required String linkText,
-    String? secondaryHref,
-    String? secondaryLinkText,
-  }) =>
-      div(classes: 'oss-card-off', [
-        div(classes: 'flex-1', [
-          div(classes: 'oss-eyebrow oss-eyebrow--teal', [.text(eyebrow)]),
-          div(classes: 'oss-title oss-title--sm', [.text(title)]),
-          p(classes: 'oss-desc oss-desc--no-mb', [.text(description)]),
-        ]),
-        div(classes: 'oss-links flex-shrink-0', [
-          a(href: href, classes: 'btn btn-ghost btn-sm', [.text(linkText)]),
-          if (secondaryHref != null && secondaryLinkText != null)
-            a(
-              href: secondaryHref,
-              classes: 'btn btn-ghost btn-sm',
-              [.text(secondaryLinkText)],
-            ),
-        ]),
-      ]);
-
-  Component _stack() => div(id: 'about', [
-    div(classes: 'section fade-up', [
-      div(classes: 'section-label', [.text('05 — Stack & Skills')]),
-      h2(classes: 'section-heading', [.text('Tools I trust.')]),
-      div(classes: 'stack-grid', [
-        _stackRow('Mobile', ['Flutter', 'Dart', 'Swift'], isTech: true),
-        _stackRow(
-          'Web',
-          ['React', 'Next.js', 'TypeScript', 'Tailwind', 'Vue', 'Jaspr'],
-          isTech: true,
-        ),
-        _stackRow(
-          'State',
-          ['BLoC', 'Cubit', 'Riverpod', 'Zustand', 'React Query'],
-          isTech: true,
-        ),
-        _stackRow(
-          'Backend',
-          [
-            'Node.js',
-            'PostgreSQL',
-            'Supabase',
-            'Firebase',
-            'FastAPI',
-            'GraphQL',
-            'AWS',
-            'Stripe',
-          ],
-          isTech: true,
-        ),
-        _stackRow(
-          'Tooling',
-          ['CodeMagic', 'GitHub Actions', 'Vercel', 'Railway', 'Sentry', 'Talker'],
-          isTech: false,
-        ),
-        _stackRow(
-          'AI',
-          ['Claude Code', 'Claude Design', 'Cursor'],
-          isTech: false,
-        ),
-      ]),
-    ]),
-  ]);
-
-  Component _stackRow(String label, List<String> items, {required bool isTech}) =>
-      div(classes: 'stack-row', [
-        span(classes: 'stack-group-label', [.text(label)]),
-        div(classes: 'stack-chips', [
-          for (final item in items)
-            span(
-              classes: 'tag ${isTech ? 'tag-tech' : 'tag-neutral'}',
-              [.text(item)],
-            ),
-        ]),
-      ]);
-
-  Component _contact() => div(id: 'contact', [
-    div(classes: 'section fade-up', [
-      div(classes: 'section-label', [.text('06 — Contact')]),
-      div(classes: 'contact-card', [
-        h2(classes: 'contact-heading', [.text("Let's build something.")]),
-        p(classes: 'contact-sub', [
-          .text('Open to conversations.'),
-        ]),
-        a(
-          href: 'mailto:jordannnabugwu@gmail.com',
-          classes: 'contact-email',
-          [.text('jordannnabugwu@gmail.com')],
-        ),
-        div(classes: 'contact-links', [
-          a(
-            href: 'https://github.com/jnnabugwu',
-            classes: 'btn btn-secondary',
-            [.text('GitHub')],
-          ),
-          a(
-            href: 'https://linkedin.com/in/jordan-nnabugwu',
-            classes: 'btn btn-secondary',
-            [.text('LinkedIn')],
-          ),
-        ]),
-      ]),
-    ]),
-  ]);
-
-  Component _footer() => footer([
-    p([
-      .text('Built with Jaspr · '),
-      span([.text('©')]),
-      .text(' 2026 Jordan Nnabugwu'),
-    ]),
+  Component _projects() => section(id: 'projects', [
+    sectionHead('My own apps', 'Built and shipped alone.'),
+    listRow(
+      name: 'Steady',
+      context: 'On the App Store · Aug 2026',
+      description:
+          'A calm weekly view of eating and activity for people who already track '
+          'their food. Calories next to energy burned, steps and weight trend from '
+          'Apple Health, and a coach that runs entirely on the phone with Apple '
+          'Foundation Models. No account, no servers.',
+      stack: 'Swift, HealthKit, Apple Foundation Models, Flutter',
+      links: [
+        ('App Store', 'https://apps.apple.com/us/app/steady-calorie-check-in/id6826394186'),
+        ('Site', '/steady/'),
+        ('GitHub', 'https://github.com/jnnabugwu/steady'),
+      ],
+    ),
+    listRow(
+      name: 'MoodTune',
+      context: 'iOS, Android, and web · Dec 2025',
+      description:
+          'Upload a song and get its mood. The audio model runs on the phone, with '
+          'a timeout, a backend fallback, and a remote kill switch. 86% test '
+          'coverage, with CI blocking anything under 80%.',
+      stack: 'FastAPI, Supabase, LiteRT, Flutter',
+      links: [
+        ('Site', 'https://getmoodtune.com'),
+        ('GitHub', 'https://github.com/jnnabugwu/moodtune_app'),
+      ],
+    ),
+    listRow(
+      name: 'BT Speaker Studio',
+      context: 'Side project · Raspberry Pi',
+      description:
+          'A Bluetooth speaker running on a Raspberry Pi Zero 2W, with a real-time '
+          'FFT visualizer and an LED ring synced to the beat over typed WebSocket '
+          'events. Comes with a companion mobile app, in a Melos monorepo with '
+          'GitHub Actions CI.',
+      stack: 'Melos, WebSockets, GitHub Actions, Flutter',
+      links: [('GitHub', 'https://github.com/jnnabugwu/bt_speaker')],
+    ),
   ]);
 }
